@@ -19,6 +19,11 @@
             const hash = CryptoJS.HmacSHA1(body, apiSecret);
             const base64Encoded = CryptoJS.enc.Base64.stringify(hash);
 
+            // 构建请求 URL 和查询参数
+            const url = new URL('https://co.aippt.cn/api/grant/code');
+            url.searchParams.append('uid', '1');
+            url.searchParams.append('channel', '');
+
             // Construct headers
             const headers = {
                 'x-api-key': apiKey,
@@ -27,7 +32,7 @@
             };
 
             // Send request
-            fetch('https://co.aippt.cn/api/grant/code?uid=1&channel=', {
+            fetch(url, {
                 method: 'GET',
                 headers: headers
             })
