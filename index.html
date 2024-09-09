@@ -17,6 +17,8 @@
             const urlParams = new URLSearchParams(window.location.search);
             const uid = urlParams.get('uid');
             const custom_generate_content = urlParams.get('custom_generate_content');
+            console.log("uid = ",uid);
+            console.log("custom_generate_content = ",custom_generate_content);
 
             // Generate HMAC-SHA1 signature
             const hash = CryptoJS.HmacSHA1(body, apiSecret);
