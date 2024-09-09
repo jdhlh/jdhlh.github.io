@@ -16,8 +16,9 @@
             const body = 'GET@/api/grant/code/@' + currentSeconds;
             const urlParams = new URLSearchParams(window.location.search);
             const uid = urlParams.get('uid');
-            console.log("uid = ",uid);
-            console.log("custom_generate_content = ",custom_generate_content);
+            const generatecontent = urlParams.get('generatecontent');
+            console.log("uid = ",uid)
+            console.log("generatecontent = ",generatecontent)
 
             // Generate HMAC-SHA1 signature
             const hash = CryptoJS.HmacSHA1(body, apiSecret);
@@ -67,7 +68,7 @@
                     //  type: 1
                     // },
                     custom_generate: {
-                    content: custom_generate_content,
+                    content: generatecontent,
                     step: 2
                     },
                     download_mode: 2  // 直接进行下载，并且发送消息通知，包含可下载地址
