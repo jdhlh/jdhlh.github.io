@@ -77,8 +77,8 @@
                     download_mode: 2  // 直接进行下载，并且发送消息通知，包含可下载地址
                     },
                     onMessage(eventType,data){
-                    console.log(eventType,data)
-                        window.myObject.processObject(data);
+                    console.log(eventType,data);
+                    window.myObject.processObject(data);
                    }
                    })
                    } catch (e) {  // 进行异常描述的信息捕获
