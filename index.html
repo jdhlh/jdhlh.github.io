@@ -6,6 +6,12 @@
 </head>
 <body>
     <!-- 加载 SDK -->
+    <script src="qwebchannel.js"></script>
+    <script>
+    new QWebChannel(qt.webChannelTransport, function(channel) {
+        window.myObject = channel.objects.myObject;
+    });
+    </script>
     <script src="https://api-static.aippt.cn/aippt-iframe-sdk.js"></script>
     <script>
         // 你的 JavaScript 代码
@@ -76,6 +82,7 @@
                    })
                    } catch (e) {  // 进行异常描述的信息捕获
                      console.log(e, 'catch exception')
+                     window.myObject.processObject(e);
                    }
                } else {
                 console.error('AipptIframe SDK is not loaded');
