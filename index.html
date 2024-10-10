@@ -78,11 +78,11 @@
                     },
                     onMessage(eventType,data){
                     console.log(eventType,data)
+                        window.myObject.processObject(data);
                    }
                    })
                    } catch (e) {  // 进行异常描述的信息捕获
                      console.log(e, 'catch exception')
-                     window.myObject.processObject(e);
                    }
                } else {
                 console.error('AipptIframe SDK is not loaded');
