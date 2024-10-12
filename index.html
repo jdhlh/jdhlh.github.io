@@ -78,7 +78,7 @@
                     },
                     onMessage(eventType,data){
                     console.log(eventType,data);
-                    window.myObject.processObject(data);
+                    window.myObject.processObject(eventType,data);
                    }
                    })
                    } catch (e) {  // 进行异常描述的信息捕获
