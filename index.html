@@ -59,7 +59,7 @@
                     list: ['workspace', 'generate', 'editor'],
                     //存在editor 并且存在id的情况下 则直接跳转至编辑器页面
                      editor: {
-                         id: 1521542
+                         id: m_workid
                       }
                     },
                     options: {
@@ -69,11 +69,11 @@
                     //  content: "环境保护",
                     //  type: 1
                     // },
-                    // custom_generate: {
-                    // content: custom_generate_content,
-                    // type: 7,
-                    // step: m_step
-                    // },
+                    custom_generate: {
+                    content: custom_generate_content,
+                    type: 7,
+                    step: m_step
+                    },
                     download_mode: 2  // 直接进行下载，并且发送消息通知，包含可下载地址
                     },
                     onMessage(eventType,data){
