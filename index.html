@@ -49,41 +49,59 @@
                 if (typeof AipptIframe !== 'undefined') {
                     console.log('AipptIframe SDK is loaded');
                     // 初始化 SDK 或调用 SDK 提供的方法
-                    try {
-                    AipptIframe.show({
-                    appkey: '6684d4c711462',
-                    channel: '',
-                    code: m_code,
-                    editorModel: true,
-                    routerOptions: {
-                    list: ['workspace', 'generate', 'editor'],
-                    //存在editor 并且存在id的情况下 则直接跳转至编辑器页面
-                     editor: {
-                         id: m_workid
-                      }
-                    },
-                    options: {
-                    // download_mode: 0 // 只发送消息通知，但不会进行自动下载，包含可下载地址
-                    // download_mode: 1 // 直接进行下载，但是不会发送消息通知
-                    // custom_generate: {
-                    //  content: "环境保护",
-                    //  type: 1
-                    // },
-                    custom_generate: {
-                    content: custom_generate_content,
-                    type: 7,
-                    step: m_step
-                    },
-                    download_mode: 2  // 直接进行下载，并且发送消息通知，包含可下载地址
-                    },
-                    onMessage(eventType,data){
-                    console.log(eventType,data);
-                    window.myObject.processObject(eventType,data);
-                   }
-                   })
-                   } catch (e) {  // 进行异常描述的信息捕获
-                     console.log(e, 'catch exception')
-                   }
+                    if (m_workid == 0) {
+                         try {
+                        AipptIframe.show({
+                        appkey: '6684d4c711462',
+                        channel: '',
+                        code: m_code,
+                        editorModel: true,
+                        routerOptions: {
+                        list: ['workspace', 'generate', 'editor']
+                        },
+                        options: {
+                        custom_generate: {
+                        content: custom_generate_content,
+                        type: 7,
+                        step: m_step
+                        },
+                        download_mode: 2  // 直接进行下载，并且发送消息通知，包含可下载地址
+                        },
+                        onMessage(eventType,data){
+                        console.log(eventType,data);
+                        window.myObject.processObject(eventType,data);
+                       }
+                       })
+                       } catch (e) {  // 进行异常描述的信息捕获
+                         console.log(e, 'catch exception')
+                       }
+                    } else {
+                         try {
+                        AipptIframe.show({
+                        appkey: '6684d4c711462',
+                        channel: '',
+                        code: m_code,
+                        editorModel: true,
+                        routerOptions: {
+                        list: ['workspace', 'generate', 'editor'],
+                        //存在editor 并且存在id的情况下 则直接跳转至编辑器页面
+                         editor: {
+                             id: m_workid
+                          }
+                        },
+                        options: {
+                        download_mode: 2  // 直接进行下载，并且发送消息通知，包含可下载地址
+                        },
+                        onMessage(eventType,data){
+                        console.log(eventType,data);
+                        window.myObject.processObject(eventType,data);
+                       }
+                       })
+                       } catch (e) {  // 进行异常描述的信息捕获
+                         console.log(e, 'catch exception')
+                       }
+                    } 
+                   
                } else {
                 console.error('AipptIframe SDK is not loaded');
                }
