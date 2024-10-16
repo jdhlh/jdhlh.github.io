@@ -5,6 +5,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 </head>
 <body>
+    <div id="iframe"></div>
     <!-- 加载 SDK -->
     <script src="qwebchannel.js"></script>
     <script>
@@ -54,6 +55,7 @@
                         AipptIframe.show({
                         appkey: '6684d4c711462',
                         channel: '',
+                        container: document.getElementById("iframe"),
                         code: m_code,
                         editorModel: true,
                         routerOptions: {
