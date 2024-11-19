@@ -20,8 +20,8 @@
 
             // 确保 myObject 对象存在并且包含 getApiSecret 和 getApiKey 方法
             if (window.myObject && typeof window.myObject.getApiSecret === 'function' && typeof window.myObject.getApiKey === 'function') {
-                var apiSecret = window.myObject.getApiSecret(); // Replace with your actual API secret
-                var apiKey = window.myObject.getApiKey(); // Replace with your actual API key
+                const apiSecret = window.myObject.apiSecret;
+                const apiKey = window.myObject.apiKey;
                 console.log("apiSecret",apiSecret);
                 console.log("apiKey",apiKey);
                 const currentSeconds = Math.floor(Date.now() / 1000);
