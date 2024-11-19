@@ -22,8 +22,15 @@
     <script>
         // 你的 JavaScript 代码
         window.onload = function() {
-            const apiSecret = window.myObject.getApiSecret(); // Replace with your actual API secret
-            const apiKey = window.myObject.getApiKey() ; // Replace with your actual API key
+            const apiSecret ='';
+            const apiKey = ''
+            if (window.myObject && typeof window.myObject.getApiSecret === 'function' && typeof window.myObject.getApiKey === 'function') {
+                apiSecret = window.myObject.getApiSecret(); // Replace with your actual API secret
+                apiKey = window.myObject.getApiKey(); // Replace with your actual API key
+            // ... 其余代码
+            } else {
+                console.error('myObject is not properly initialized or methods are not available.');
+            }
             const currentSeconds = Math.floor(Date.now() / 1000);
             const body = 'GET@/api/grant/code/@' + currentSeconds;
 
