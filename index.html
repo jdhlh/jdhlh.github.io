@@ -22,6 +22,8 @@
             if (window.myObject && typeof window.myObject.getApiSecret === 'function' && typeof window.myObject.getApiKey === 'function') {
                 const apiSecret = window.myObject.getApiSecret(); // Replace with your actual API secret
                 const apiKey = window.myObject.getApiKey(); // Replace with your actual API key
+                console.log("apiSecret",apiSecret);
+                console.log("apiKey",apiKey);
                 const currentSeconds = Math.floor(Date.now() / 1000);
                 const body = 'GET@/api/grant/code/@' + currentSeconds;
 
