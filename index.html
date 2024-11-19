@@ -13,118 +13,110 @@
     <div id="iframe"></div>
     <!-- 加载 SDK -->
     <script src="qwebchannel.js"></script>
-    <script>
-    new QWebChannel(qt.webChannelTransport, function(channel) {
-        window.myObject = channel.objects.myObject;
-    });
-    </script>
     <script src="https://api-static.aippt.cn/aippt-iframe-sdk.js"></script>
     <script>
-        // 你的 JavaScript 代码
-        window.onload = function() {
-            const apiSecret ='';
-            const apiKey = ''
+        new QWebChannel(qt.webChannelTransport, function(channel) {
+            window.myObject = channel.objects.myObject;
+
+            // 确保 myObject 对象存在并且包含 getApiSecret 和 getApiKey 方法
             if (window.myObject && typeof window.myObject.getApiSecret === 'function' && typeof window.myObject.getApiKey === 'function') {
-                apiSecret = window.myObject.getApiSecret(); // Replace with your actual API secret
-                apiKey = window.myObject.getApiKey(); // Replace with your actual API key
-            // ... 其余代码
+                const apiSecret = window.myObject.getApiSecret(); // Replace with your actual API secret
+                const apiKey = window.myObject.getApiKey(); // Replace with your actual API key
+                const currentSeconds = Math.floor(Date.now() / 1000);
+                const body = 'GET@/api/grant/code/@' + currentSeconds;
+
+                // Generate HMAC-SHA1 signature
+                const hash = CryptoJS.HmacSHA1(body, apiSecret);
+                const base64Encoded = CryptoJS.enc.Base64.stringify(hash);
+
+                // 构建请求 URL 和查询参数
+                const url = new URL('https://co.aippt.cn/api/grant/code');
+                url.searchParams.append('uid', '2');
+                url.searchParams.append('channel', '');
+
+                // Construct headers
+                const headers = {
+                    'x-api-key': apiKey,
+                    'x-timestamp': currentSeconds,
+                    'x-signature': base64Encoded
+                };
+
+                // Send request
+                fetch(url, {
+                    method: 'GET',
+                    headers: headers
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const m_code = data.data.code;
+                    // 确保 SDK 加载完成后再执行代码
+                    if (typeof AipptIframe !== 'undefined') {
+                        console.log('AipptIframe SDK is loaded');
+                        // 初始化 SDK 或调用 SDK 提供的方法
+                        if (m_workid == 0) {
+                            try {
+                                AipptIframe.show({
+                                    appkey: apiKey,
+                                    channel: '',
+                                    container: document.getElementById("iframe"),
+                                    code: m_code,
+                                    editorModel: true,
+                                    routerOptions: {
+                                        list: ['workspace', 'generate', 'editor']
+                                    },
+                                    options: {
+                                        custom_generate: {
+                                            content: custom_generate_content,
+                                            type: 7,
+                                            step: m_step
+                                        },
+                                        download_mode: 2  // 直接进行下载，并且发送消息通知，包含可下载地址
+                                    },
+                                    onMessage(eventType,data){
+                                        console.log(eventType,data);
+                                        window.myObject.processObject(eventType,data);
+                                    }
+                                })
+                            } catch (e) {  // 进行异常描述的信息捕获
+                                console.log(e, 'catch exception')
+                            }
+                        } else {
+                            try {
+                                AipptIframe.show({
+                                    appkey: '6684d4c711462',
+                                    channel: '',
+                                    code: m_code,
+                                    editorModel: true,
+                                    routerOptions: {
+                                        list: ['workspace', 'generate', 'editor'],
+                                        //存在editor 并且存在id的情况下 则直接跳转至编辑器页面
+                                        editor: {
+                                            id: m_workid
+                                        }
+                                    },
+                                    options: {
+                                        download_mode: 2  // 直接进行下载，并且发送消息通知，包含可下载地址
+                                    },
+                                    onMessage(eventType,data){
+                                        console.log(eventType,data);
+                                        window.myObject.processObject(eventType,data);
+                                    }
+                                })
+                            } catch (e) {  // 进行异常描述的信息捕获
+                                console.log(e, 'catch exception')
+                            }
+                        }
+                    } else {
+                        console.error('AipptIframe SDK is not loaded');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
             } else {
                 console.error('myObject is not properly initialized or methods are not available.');
             }
-            const currentSeconds = Math.floor(Date.now() / 1000);
-            const body = 'GET@/api/grant/code/@' + currentSeconds;
-
-            // Generate HMAC-SHA1 signature
-            const hash = CryptoJS.HmacSHA1(body, apiSecret);
-            const base64Encoded = CryptoJS.enc.Base64.stringify(hash);
-
-            // 构建请求 URL 和查询参数
-            const url = new URL('https://co.aippt.cn/api/grant/code');
-            url.searchParams.append('uid', '2');
-            url.searchParams.append('channel', '');
-
-            // Construct headers
-            const headers = {
-                'x-api-key': apiKey,
-                'x-timestamp': currentSeconds,
-                'x-signature': base64Encoded
-            };
-
-            // Send request
-            fetch(url, {
-                method: 'GET',
-                headers: headers
-            })
-            .then(response => response.json())
-            .then(data => {
-                const m_code = data.data.code;
-                // 确保 SDK 加载完成后再执行代码
-                if (typeof AipptIframe !== 'undefined') {
-                    console.log('AipptIframe SDK is loaded');
-                    // 初始化 SDK 或调用 SDK 提供的方法
-                    if (m_workid == 0) {
-                         try {
-                        AipptIframe.show({
-                        appkey: apiKey,
-                        channel: '',
-                        container: document.getElementById("iframe"),
-                        code: m_code,
-                        editorModel: true,
-                        routerOptions: {
-                        list: ['workspace', 'generate', 'editor']
-                        },
-                        options: {
-                        custom_generate: {
-                        content: custom_generate_content,
-                        type: 7,
-                        step: m_step
-                        },
-                        download_mode: 2  // 直接进行下载，并且发送消息通知，包含可下载地址
-                        },
-                        onMessage(eventType,data){
-                        console.log(eventType,data);
-                        window.myObject.processObject(eventType,data);
-                       }
-                       })
-                       } catch (e) {  // 进行异常描述的信息捕获
-                         console.log(e, 'catch exception')
-                       }
-                    } else {
-                         try {
-                        AipptIframe.show({
-                        appkey: '6684d4c711462',
-                        channel: '',
-                        code: m_code,
-                        editorModel: true,
-                        routerOptions: {
-                        list: ['workspace', 'generate', 'editor'],
-                        //存在editor 并且存在id的情况下 则直接跳转至编辑器页面
-                         editor: {
-                             id: m_workid
-                          }
-                        },
-                        options: {
-                        download_mode: 2  // 直接进行下载，并且发送消息通知，包含可下载地址
-                        },
-                        onMessage(eventType,data){
-                        console.log(eventType,data);
-                        window.myObject.processObject(eventType,data);
-                       }
-                       })
-                       } catch (e) {  // 进行异常描述的信息捕获
-                         console.log(e, 'catch exception')
-                       }
-                    } 
-                   
-               } else {
-                console.error('AipptIframe SDK is not loaded');
-               }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        };
-      
+        });
     </script>
 </body>
 </html>
