@@ -21,7 +21,6 @@
     <script src="https://api-static.aippt.cn/aippt-iframe-sdk.js"></script>
     <script>
         // 你的 JavaScript 代码
-        window.onload = function() {
             const apiSecret = window.myObject.getApiSecret(); // Replace with your actual API secret
             const apiKey = window.myObject.getApiKey() ; // Replace with your actual API key
             const currentSeconds = Math.floor(Date.now() / 1000);
@@ -116,8 +115,6 @@
             .catch(error => {
                 console.error('Error:', error);
             });
-        };
-      
     </script>
 </body>
 </html>
