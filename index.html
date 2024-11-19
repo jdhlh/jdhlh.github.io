@@ -22,8 +22,6 @@
     <script>
         // 你的 JavaScript 代码
         window.onload = function() {
-            const apiSecret = '2YdWhPr6WYyWkPgZYQSuEILduOe4MvyI'; // Replace with your actual API secret
-            const apiKey = '6684d4c711462'; // Replace with your actual API key
             const currentSeconds = Math.floor(Date.now() / 1000);
             const body = 'GET@/api/grant/code/@' + currentSeconds;
 
@@ -58,7 +56,7 @@
                     if (m_workid == 0) {
                          try {
                         AipptIframe.show({
-                        appkey: '6684d4c711462',
+                        appkey: apiKey,
                         channel: '',
                         container: document.getElementById("iframe"),
                         code: m_code,
