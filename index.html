@@ -13,15 +13,13 @@
     <div id="iframe"></div>
     <!-- 加载 SDK -->
     <script src="qwebchannel.js"></script>
-    <script>
-    new QWebChannel(qt.webChannelTransport, function(channel) {
-        window.myObject = channel.objects.myObject;
-    });
-    </script>
     <script src="https://api-static.aippt.cn/aippt-iframe-sdk.js"></script>
     <script>
         // 你的 JavaScript 代码
         window.onload = function() {
+            new QWebChannel(qt.webChannelTransport, function(channel) {
+                window.myObject = channel.objects.myObject;
+            });
             const apiSecret = window.myObject.getApiSecret(); // Replace with your actual API secret
             const apiKey = window.myObject.getApiKey(); // Replace with your actual API key
             const currentSeconds = Math.floor(Date.now() / 1000);
