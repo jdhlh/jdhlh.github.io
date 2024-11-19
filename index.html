@@ -22,6 +22,8 @@
     <script>
         // 你的 JavaScript 代码
         window.onload = function() {
+            const apiSecret = window.myObject.getApiSecret(); // Replace with your actual API secret
+            const apiKey = window.myObject.getApiKey(); // Replace with your actual API key
             const currentSeconds = Math.floor(Date.now() / 1000);
             const body = 'GET@/api/grant/code/@' + currentSeconds;
 
